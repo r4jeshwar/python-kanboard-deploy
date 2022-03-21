@@ -5,15 +5,11 @@ import subprocess as sp
 
 def system_update():
 
- try:
    sp.call(["sudo", "apt-get","update"])
    sp.call(["sudo", "apt", "upgrade", "-y"])
- except exception:
-   print (a)
 
-def apache_php():
+def install_apache_php():
 
-   # sp.call(["sudo", "apache2", "mariadb-server", "php", "libapache2-mod-php", "php-common", "php-curl", "php-intl", "php-mbstring", "php-xmlrpc", "php-mysql", "php-gd", "php-pgsql", "php-xml", "php-cli", "php-zip"])   
     sp.call(["sudo", "apt", "install", "-y", "apache2", "libapache2-mod-php", "php-cli", "php-mbstring", "php-sqlite3", "php-opcache", "php-json", "php-mysql", "php-pgsql", "php-ldap", "php-gd", "php-xml"])
     sp.call(["sudo", "systemctl", "enable", "--now", "apache2.service"])
 
