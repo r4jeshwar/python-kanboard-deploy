@@ -21,6 +21,14 @@ def install_maraidb():
     sp.call(["sudo", "mysql_secure_installation"])
 
 def install_kb():
+    result_str = ''.join(random.choice(string.ascii_letters) for i in range(8))
+    print (result_str)
+    passwd = result_str
+    salt = bcrypt.hashpw(passwd.encode('utf8'), bcrypt.gensalt())
+    hashed = bcrypt.checkpw(passwd.encode('utf8'), salt)
+    print(salt)
+    password = str(salt)
+    print(password)
 
     version = input("Enter the version: ")
     print(version)
@@ -41,7 +49,8 @@ def install_kb():
     sp.call(["sudo", "sed", "-i", "s/DB_DRIVER', 'sqlite'/DB_DRIVER', 'mysql'/g", "/var/www/html/kanboard/config.default.php"])
     sp.call(["sudo", "sed", "-i", "s/DB_USERNAME', 'root'/DB_USERNAME', 'kanboarduser'/g", "/var/www/html/kanboard/config.default.php"])
     sp.call(["sudo", "sed", "-i", "s/DB_PASSWORD', ''/DB_PASSWORD', 'rajeshwar'/g", "/var/www/html/kanboard/config.default.php"])
-
+    sp.call(["sudo", "sed", "-i", "s/\$2y\$10\$GzDCeQl\/GdH\.pCZfz4fWdO3qmayutRCmxEIY9U9t1k9q9F89VNDCm/"+password+"/g", "/var/www/html/kanboard/app/Schema/Sql/mysql.sql"])
+    
 def restart_apache():
     sp.call(["sudo", "cd", "/etc/php/7.4/mods-available"])
     sp.call(["sudo", "touch", "php.ini"])
@@ -51,7 +60,8 @@ def restart_apache():
 
 if __name__ == '__main__':
     system_update()
-    apache_php()
+    install_apache_php()
     install_maraidb()
     install_kb()
+    restart_apache()
 
