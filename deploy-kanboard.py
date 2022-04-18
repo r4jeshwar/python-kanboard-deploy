@@ -2,6 +2,9 @@
 
 
 import subprocess as sp
+import random
+import bcrypt
+import string
 
 def system_update():
 
@@ -29,6 +32,7 @@ def install_kb():
     print(salt)
     password = str(salt)
     print(password)
+    sp.call(["sudo", "sed", "-i", "s/'\$2y\$10\$GzDCeQl\/GdH\.pCZfz4fWdO3qmayutRCmxEIY9U9t1k9q9F89VNDCm'/"+password+"/g", "/var/www/html/kanboard/app/Schema/Sql/mysql.sql"])
 
     version = input("Enter the version: ")
     print(version)
@@ -49,14 +53,14 @@ def install_kb():
     sp.call(["sudo", "sed", "-i", "s/DB_DRIVER', 'sqlite'/DB_DRIVER', 'mysql'/g", "/var/www/html/kanboard/config.default.php"])
     sp.call(["sudo", "sed", "-i", "s/DB_USERNAME', 'root'/DB_USERNAME', 'kanboarduser'/g", "/var/www/html/kanboard/config.default.php"])
     sp.call(["sudo", "sed", "-i", "s/DB_PASSWORD', ''/DB_PASSWORD', 'rajeshwar'/g", "/var/www/html/kanboard/config.default.php"])
-    sp.call(["sudo", "sed", "-i", "s/\$2y\$10\$GzDCeQl\/GdH\.pCZfz4fWdO3qmayutRCmxEIY9U9t1k9q9F89VNDCm/"+password+"/g", "/var/www/html/kanboard/app/Schema/Sql/mysql.sql"])
     
 def restart_apache():
-    sp.call(["sudo", "cd", "/etc/php/7.4/mods-available"])
-    sp.call(["sudo", "touch", "php.ini"])
-    sp.call(["sudo", "echo", "extension=php.so", ">", "php.ini"])
-    sp.call(["sudo", "cd"])
+    
+    sp.call(["sudo", "touch", "/etc/php/7.4/mods-available/php.ini"])
+    f=open('/etc/php/7.4/mods-available/php.ini', "w")
+    sp.call(["echo", "extension=php.so"],stdout=f)
     sp.call(["sudo", "systemctl", "restart", "apache2.service"])
+    sp.call(["sudo", "systemctl", "restart", "mysqld.service"])
 
 if __name__ == '__main__':
     system_update()
