@@ -1,5 +1,6 @@
 # python-kanboard-deploy
 
+### The development of this project has moved to https://github.com/r4jeshwar/nornir-kanboard-deploy
 
 # Introduction
 Kanboard is a project management open source software application that uses a Kanban board to implement the Kanban process management system.
