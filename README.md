@@ -8,13 +8,16 @@ This repository is an attempt at writing a pure python implementation of a scrip
 # Installation
 `Step 1:` Clone the repository.
 
-`Step 2:` Point your web browser to http://<your_ip_address>/kanboard to start using Kanboard. Use the following default credentials to log in:
-       
-        Username: admin
-        Password: admin
+`Step 2:` pip -r requirements.txt
 
+`Step 3:` Export environment variables 
+```
+export PASSWORD=<password>
+export CONFIRM_PASS=<re-enter_password>
+export URL=<url>
+```
 
-`Step 3:` For security purposes, remember to modify admin's password using the users management link from the upper right-hand admin drop-down menu.
+`Step 4:` ~~For security purposes, remember to modify admin's password using the users management link from the upper right-hand admin drop-down menu~~ This is being currently handled by the playwright library.
     
     
 
