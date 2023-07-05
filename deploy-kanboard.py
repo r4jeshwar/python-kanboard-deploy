@@ -3,6 +3,65 @@
 
 import subprocess as sp
 
+from seccomp import * 
+
+
+def setup_seccomp():
+
+    # create a filter object with a default KILL action
+    f = SyscallFilter(defaction=KILL)
+
+    '''Arguments:
+        defaction - the default filter action'''
+
+    # add syscall filter rules to allow certain syscalls
+    f.add_rule(ALLOW, "wait4")
+    f.add_rule(ALLOW, "clone")
+    f.add_rule(ALLOW, "read")
+    f.add_rule(ALLOW, "stat")
+    f.add_rule(ALLOW, "close")
+    f.add_rule(ALLOW, "pipe2")
+    f.add_rule(ALLOW, "getdents64")
+    f.add_rule(ALLOW, "openat")
+    f.add_rule(ALLOW, "fstat")
+    f.add_rule(ALLOW, "write")
+    f.add_rule(ALLOW, "lseek")
+    f.add_rule(ALLOW, "rt_sigaction")
+    f.add_rule(ALLOW, "ioctl")
+    f.add_rule(ALLOW, "brk")
+    f.add_rule(ALLOW, "mmap")
+    f.add_rule(ALLOW, "gettid")
+    f.add_rule(ALLOW, "dup")
+    f.add_rule(ALLOW, "fcntl")
+    f.add_rule(ALLOW, "sysinfo")
+    f.add_rule(ALLOW, "sigaltstack")
+    f.add_rule(ALLOW, "lstat")
+    f.add_rule(ALLOW, "geteuid")
+    f.add_rule(ALLOW, "getcwd")
+    f.add_rule(ALLOW, "readlink")
+    f.add_rule(ALLOW, "getuid")
+    f.add_rule(ALLOW, "getgid")
+    f.add_rule(ALLOW, "getegid")
+    f.add_rule(ALLOW, "mprotect")
+    f.add_rule(ALLOW, "munmap")
+    f.add_rule(ALLOW, "rt_sigprocmask")
+    f.add_rule(ALLOW, "pread64")
+    f.add_rule(ALLOW, "access")
+    f.add_rule(ALLOW, "execve")
+    f.add_rule(ALLOW, "arch_prctl")
+    f.add_rule(ALLOW, "futex")
+    f.add_rule(ALLOW, "set_tid_address")
+    f.add_rule(ALLOW, "set_robust_list")
+    f.add_rule(ALLOW, "prlimit64")
+    f.add_rule(ALLOW, "getrandom")
+    
+
+    # load the filter into the kernel
+    f.load()
+    print(f'Seccomp enabled...')
+
+setup_seccomp()
+
 def system_update():
 
    sp.call(["sudo", "apt-get","update"])
