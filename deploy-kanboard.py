@@ -110,15 +110,9 @@ def restart_apache():
     sp.call(["sudo", "systemctl", "restart", "apache2.service"])
     sp.call(["sudo", "systemctl", "restart", "mysqld.service"])
 
-def update_admin_passwd():
-    
-    sp.call(["python3", "./update-admin-passwd.py"])
-
 if __name__ == '__main__':
     system_update()
     install_apache_php()
     install_maraidb()
     install_kb()
     restart_apache()
-    update_admin_passwd()
-
